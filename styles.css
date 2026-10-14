@@ -1,0 +1,1726 @@
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   TEMAS
+   Tudo que muda de cor está aqui em cima, em variáveis.
+   O JavaScript só troca os atributos no <html>:
+     data-theme  = dark | light
+     data-vision = default | deutan | protan | tritan | contrast
+
+   Variáveis de cor:
+     --accent       cor principal (botões, preenchimentos)
+     --accent-text  a mesma cor, mas ajustada para ser lida como texto
+     --accent-lite  tom mais claro da principal (degradês)
+     --accent-2     cor de apoio, suave e quente (detalhes pequenos)
+     --accent2-text a cor de apoio ajustada para texto
+     --on-accent    cor do texto em cima da cor principal
+     --live         cor do selo "live" e da mensagem de sucesso
+   ===================================================== */
+
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #080b14;
+  --bg-soft: #0d1220;
+  --card: rgba(16, 23, 40, 0.62);
+  --card-hover: rgba(24, 34, 58, 0.85);
+  --text: #eaf0fb;
+  --text-muted: #a3b0c8;
+  --text-soft: #8794ae;
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(8, 11, 20, 0.62);
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --blob-opacity: 0.55;
+
+  --accent: #2f6fe4;            --accent-rgb: 47, 111, 228;
+  --accent-text: #8ab8ff;
+  --accent-lite: #5fb4ff;
+  --accent-2: #ff9e80;          --accent2-rgb: 255, 158, 128;
+  --accent2-text: #ffb199;
+  --on-accent: #ffffff;
+  --live: #34d399;              --live-rgb: 52, 211, 153;
+}
+
+/* ---------- CLARO ---------- */
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f8ff;
+  --bg-soft: #e8f0fc;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-hover: rgba(255, 255, 255, 0.97);
+  --text: #121a2e;
+  --text-muted: #44506b;
+  --text-soft: #5f6b86;
+  --border-soft: rgba(18, 26, 46, 0.1);
+  --nav-bg: rgba(244, 248, 255, 0.72);
+  --shadow: 0 20px 50px rgba(30, 70, 150, 0.16);
+  --blob-opacity: 0.45;
+
+  --accent: #1f5fd1;            --accent-rgb: 31, 95, 209;
+  --accent-text: #1a53b8;
+  --accent-lite: #3b8cf0;
+  --accent-2: #e0603a;          --accent2-rgb: 224, 96, 58;
+  --accent2-text: #b8421f;
+  --on-accent: #ffffff;
+  --live: #047857;              --live-rgb: 4, 120, 87;
+}
+
+/* ---------- DALTONISMO ----------
+   As paletas vêm de fontes confiáveis e foram escolhidas para
+   não depender de verde x vermelho:
+
+   • Deuteranopia  → Okabe-Ito (Color Universal Design, Okabe & Ito;
+                     a mesma da Bang Wong, Nature Methods 2011)
+                     azul #0072B2, azul-céu #56B4E9, laranja #E69F00,
+                     vermelhão #D55E00, verde-azulado #009E73
+   • Protanopia    → Paul Tol, esquema "high-contrast" e "bright"
+                     (SRON) azul #004488 / #4477AA, amarelo #DDAA33,
+                     ciano #66CCEE, azul claro #77AADD
+   • Tritanopia    → Paul Tol, esquema "vibrant"
+                     vermelho #CC3311, laranja #EE7733,
+                     verde-azulado #009988
+   • Alto contraste→ WCAG (W3C): texto com contraste de 7:1 ou mais
+
+   Alguns tons foram só escurecidos/clareados da mesma cor para o
+   texto ter contraste de pelo menos 4,5:1 (WCAG AA). */
+
+/* Deuteranopia */
+[data-theme="dark"][data-vision="deutan"] {
+  --accent: #0072b2;            --accent-rgb: 0, 114, 178;
+  --accent-text: #56b4e9;
+  --accent-lite: #56b4e9;
+  --accent-2: #e69f00;          --accent2-rgb: 230, 159, 0;
+  --accent2-text: #e69f00;
+  --on-accent: #ffffff;
+  --live: #009e73;              --live-rgb: 0, 158, 115;
+}
+[data-theme="light"][data-vision="deutan"] {
+  --accent: #0072b2;            --accent-rgb: 0, 114, 178;
+  --accent-text: #0072b2;
+  --accent-lite: #56b4e9;
+  --accent-2: #d55e00;          --accent2-rgb: 213, 94, 0;
+  --accent2-text: #b04a00;
+  --on-accent: #ffffff;
+  --live: #007556;              --live-rgb: 0, 117, 86;
+}
+
+/* Protanopia */
+[data-theme="dark"][data-vision="protan"] {
+  --accent: #4477aa;            --accent-rgb: 68, 119, 170;
+  --accent-text: #77aadd;
+  --accent-lite: #66ccee;
+  --accent-2: #ddaa33;          --accent2-rgb: 221, 170, 51;
+  --accent2-text: #ddaa33;
+  --on-accent: #ffffff;
+  --live: #44aa99;              --live-rgb: 68, 170, 153;
+}
+[data-theme="light"][data-vision="protan"] {
+  --accent: #004488;            --accent-rgb: 0, 68, 136;
+  --accent-text: #004488;
+  --accent-lite: #4477aa;
+  --accent-2: #997700;          --accent2-rgb: 153, 119, 0;
+  --accent2-text: #7a5c00;
+  --on-accent: #ffffff;
+  --live: #117733;              --live-rgb: 17, 119, 51;
+}
+
+/* Tritanopia */
+[data-theme="dark"][data-vision="tritan"] {
+  --accent: #cc3311;            --accent-rgb: 204, 51, 17;
+  --accent-text: #ee8866;
+  --accent-lite: #ee7733;
+  --accent-2: #009988;          --accent2-rgb: 0, 153, 136;
+  --accent2-text: #44bb99;
+  --on-accent: #ffffff;
+  --live: #44bb99;              --live-rgb: 68, 187, 153;
+}
+[data-theme="light"][data-vision="tritan"] {
+  --accent: #cc3311;            --accent-rgb: 204, 51, 17;
+  --accent-text: #cc3311;
+  --accent-lite: #ee7733;
+  --accent-2: #009988;          --accent2-rgb: 0, 153, 136;
+  --accent2-text: #00695e;
+  --on-accent: #ffffff;
+  --live: #00695e;              --live-rgb: 0, 105, 94;
+}
+
+/* Alto contraste */
+[data-theme="dark"][data-vision="contrast"] {
+  --bg: #000000; --bg-soft: #000000;
+  --card: rgba(0, 0, 0, 0.92); --card-hover: #141414;
+  --text: #ffffff; --text-muted: #ececec; --text-soft: #d4d4d4;
+  --border-soft: rgba(255, 255, 255, 0.55);
+  --nav-bg: rgba(0, 0, 0, 0.94);
+  --blob-opacity: 0.12;
+  --accent: #ffe600;            --accent-rgb: 255, 230, 0;
+  --accent-text: #ffe600;
+  --accent-lite: #ffffff;
+  --accent-2: #00e5ff;          --accent2-rgb: 0, 229, 255;
+  --accent2-text: #00e5ff;
+  --on-accent: #000000;
+  --live: #00ff7f;              --live-rgb: 0, 255, 127;
+}
+[data-theme="light"][data-vision="contrast"] {
+  --bg: #ffffff; --bg-soft: #ffffff;
+  --card: #ffffff; --card-hover: #f0f0f0;
+  --text: #000000; --text-muted: #1a1a1a; --text-soft: #333333;
+  --border-soft: rgba(0, 0, 0, 0.6);
+  --nav-bg: rgba(255, 255, 255, 0.96);
+  --blob-opacity: 0.08;
+  --accent: #0000d6;            --accent-rgb: 0, 0, 214;
+  --accent-text: #0000b8;
+  --accent-lite: #0000d6;
+  --accent-2: #a30000;          --accent2-rgb: 163, 0, 0;
+  --accent2-text: #a30000;
+  --on-accent: #ffffff;
+  --live: #006400;              --live-rgb: 0, 100, 0;
+}
+
+/* Variáveis que não mudam com o tema */
+:root {
+  --font-serif: "Cormorant Garamond", Georgia, serif;  /* fonte elegante dos títulos */
+  --font-sans: "Inter", system-ui, sans-serif;         /* fonte do texto normal */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 14px;                                      /* arredondamento padrão */
+  --transition: 0.25s ease;                            /* velocidade das animações */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Duas cores lado a lado, sem misturar (usado em bolinhas e detalhes) */
+  --two-tone: linear-gradient(135deg, var(--accent) 0 50%, var(--accent-2) 50% 100%);
+}
+
+/* Faz o scroll da página ser suave ao clicar nos links */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Estilos gerais do body */
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;   /* evita barra de rolagem horizontal */
+  min-height: 100vh;
+}
+
+/* Suaviza a troca de tema (a classe é colocada pelo JS por meio segundo) */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.45s ease, color 0.45s ease,
+    border-color 0.45s ease, fill 0.45s ease, box-shadow 0.45s ease !important;
+}
+
+/* Remove o sublinhado padrão dos links e herda a cor do texto */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Faz as imagens não ultrapassarem o tamanho do container */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Contorno bem visível para quem navega pelo teclado */
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Texto só para leitor de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Atalho "Ir para o conteúdo" */
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -4rem;
+  z-index: 300;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* =====================================================
+   EFEITOS DE FUNDO
+   ===================================================== */
+
+/* Barrinha de progresso de leitura */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 200;
+  background: linear-gradient(90deg, var(--accent), var(--accent-lite));
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Camada fixa com as bolhas de cor */
+.bg-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: var(--blob-opacity);
+  will-change: transform;
+}
+
+.b1 {
+  width: 60vmax;
+  height: 60vmax;
+  top: -25vmax;
+  right: -15vmax;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.38), transparent 65%);
+  animation: drift1 22s ease-in-out infinite alternate;
+}
+
+.b2 {
+  width: 50vmax;
+  height: 50vmax;
+  bottom: -22vmax;
+  left: -18vmax;
+  background: radial-gradient(circle, rgba(var(--accent2-rgb), 0.22), transparent 65%);
+  animation: drift2 28s ease-in-out infinite alternate;
+}
+
+.b3 {
+  width: 35vmax;
+  height: 35vmax;
+  top: 40%;
+  left: 35%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.16), transparent 65%);
+  animation: drift3 32s ease-in-out infinite alternate;
+}
+
+/* Pontinhos que somem nas bordas */
+.grid-dots {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(var(--accent-rgb), 0.22) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 70%);
+}
+
+/* Brilho pequeno que segue o mouse (só em computador) */
+.cursor-glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 140px;
+  height: 140px;
+  margin: -70px 0 0 -70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.24), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.2s ease-out;
+  will-change: transform;
+}
+
+.cursor-glow.on {
+  opacity: 1;
+}
+
+@keyframes drift1 {
+  to { transform: translate(-12vmax, 14vmax) scale(1.15); }
+}
+@keyframes drift2 {
+  to { transform: translate(16vmax, -10vmax) scale(1.1); }
+}
+@keyframes drift3 {
+  to { transform: translate(-10vmax, -12vmax) scale(0.85); }
+}
+
+/* =====================================================
+   NAVBAR (barra de navegação fixa)
+   ===================================================== */
+.navbar {
+  position: fixed;          /* fica sempre no topo mesmo ao rolar */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;             /* fica acima de tudo */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem 3rem;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);   /* efeito de vidro fosco */
+  border-bottom: 1px solid var(--border-soft);
+  transition: padding 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Quando a página já rolou: barra fica mais compacta */
+.navbar.scrolled {
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  border-bottom-color: rgba(var(--accent-rgb), 0.28);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+}
+
+.logo {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+.logo-dot {
+  color: var(--accent2-text);
+  display: inline-block;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.logo:hover .logo-dot {
+  transform: translateY(-3px) scale(1.4);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;              /* espaço entre os links */
+}
+
+.nav-links a {
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;  /* letras bem espaçadas */
+  color: var(--text-muted);
+  padding: 0.35rem 0;
+  transition: color var(--transition);
+}
+
+/* Linha que cresce embaixo do link */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-lite));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--text);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Botão e painel de tema ---------- */
+.theme-toggle {
+  position: relative;
+}
+
+.theme-toggle > button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  border-radius: 999px;     /* formato de pílula */
+  padding: 0.4rem 0.9rem;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.theme-toggle > button:hover {
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.16);
+}
+
+.theme-toggle > button svg {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle > button[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+/* Bolinha com as duas cores do tema atual */
+.theme-toggle .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--two-tone);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.6);
+}
+
+/* Painel que abre embaixo do botão */
+.theme-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 320px;
+  padding: 1.1rem;
+  background: var(--bg-soft);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity 0.25s ease, transform 0.3s var(--ease-out), visibility 0.25s;
+}
+
+.theme-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.panel-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 0.6rem;
+}
+
+/* Botões lado a lado: Escuro | Claro | Sistema */
+.seg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  padding: 0.3rem;
+  margin-bottom: 1.1rem;
+  background: rgba(var(--accent-rgb), 0.08);
+  border-radius: 12px;
+}
+
+.seg button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.55rem 0.25rem;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.seg button:hover {
+  color: var(--text);
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.4);
+}
+
+/* Lista dos modos de daltonismo */
+.vision-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.vision-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.vision-btn:hover {
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.vision-btn[aria-pressed="true"] {
+  border-color: rgba(var(--accent-rgb), 0.6);
+  background: rgba(var(--accent-rgb), 0.12);
+}
+
+/* Marca de "selecionado" (não depende só de cor) */
+.vision-btn[aria-pressed="true"]::after {
+  content: "✓";
+  margin-left: auto;
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+/* Duas bolinhas de amostra da paleta */
+.swatch {
+  display: flex;
+  flex: none;
+}
+
+.swatch i {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--c);
+  border: 1.5px solid var(--bg-soft);
+  box-shadow: 0 0 0 1px rgba(128, 128, 150, 0.45);
+}
+
+.swatch i + i {
+  margin-left: -6px;
+}
+
+.vision-name {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.vision-sub {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-soft);
+}
+
+/* Interruptor "Reduzir animações" */
+.switch-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.switch-row input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.track {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(128, 138, 165, 0.4);
+  transition: background var(--transition);
+}
+
+.track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.switch-row input:checked + .track {
+  background: var(--accent);
+}
+
+.switch-row input:checked + .track::after {
+  transform: translateX(16px);
+}
+
+.switch-row input:focus-visible + .track {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 3px;
+}
+
+/* ---------- Botão hambúrguer (só aparece no celular) ---------- */
+.menu-toggle {
+  display: none;            /* escondido por padrão */
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.menu-toggle span {
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+  transition: transform 0.3s var(--ease-out), opacity 0.2s ease;
+}
+
+/* Vira um "X" quando o menu está aberto */
+.menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Menu que abre no celular */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  padding: 2rem 1.5rem;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 99;
+  border-bottom: 1px solid var(--border-soft);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: transform 0.3s var(--ease-out), opacity 0.25s ease, visibility 0.3s;
+}
+
+/* Quando a classe "open" é adicionada pelo JS, o menu aparece */
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.mobile-menu a {
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  transition: color var(--transition), transform var(--transition);
+}
+
+.mobile-menu a:hover {
+  color: var(--accent-text);
+  transform: translateX(6px);
+}
+
+/* =====================================================
+   HERO (seção inicial)
+   ===================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;        /* ocupa a tela inteira */
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;  /* duas colunas: texto | foto */
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  gap: 3rem;
+  padding: 7rem 3rem 4rem;
+  z-index: 1;
+}
+
+.hero-content {
+  max-width: 560px;
+  justify-self: start;
+}
+
+/* Entrada em cascata dos itens do hero */
+.hero-content > * {
+  animation: fadeUp 0.9s var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 110ms + 100ms);
+}
+.hero-content > :nth-child(1) { --i: 0; }
+.hero-content > :nth-child(2) { --i: 1; }
+.hero-content > :nth-child(3) { --i: 2; }
+.hero-content > :nth-child(4) { --i: 3; }
+.hero-content > :nth-child(5) { --i: 4; }
+
+/* Badge "disponível para estágios" */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(var(--accent-rgb), 0.12);
+  border: 1px solid rgba(var(--accent-rgb), 0.32);
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent-text);
+  margin-bottom: 2rem;
+}
+
+/* Bolinha do badge, com um "anel" que se expande */
+.badge-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-text);
+}
+
+.badge-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--accent-text);
+  animation: ping 2s ease-out infinite;
+}
+
+/* Título principal "Olá, sou..." */
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 7vw, 5.4rem);  /* tamanho responsivo */
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+/* Nome em itálico com degradê de azul */
+.hero h1 .name {
+  display: inline-block;
+  padding-right: 0.12em;
+  font-style: italic;
+  color: var(--accent-text);  /* cor de reserva */
+  background: linear-gradient(110deg, var(--accent-text), var(--accent-lite), var(--accent-text));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 6s linear infinite;
+}
+
+/* "Desenvolvedor(a) Web." digitando */
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+  min-height: 1.6em;
+}
+
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  background: var(--accent-2);
+  animation: blink 1s steps(1) infinite;
+}
+
+.description {
+  font-size: 1.02rem;
+  color: var(--text-muted);
+  max-width: 440px;
+  margin-bottom: 2.5rem;
+  line-height: 1.75;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Estilo base de todos os botões */
+.btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.85rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  /* --tx e --ty vêm do efeito "ímã" feito no JS */
+  transform: translate(var(--tx, 0px), var(--ty, 0px));
+  transition: transform 0.2s ease-out, background var(--transition),
+    box-shadow var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.btn:hover {
+  transform: translate(var(--tx, 0px), calc(var(--ty, 0px) - 2px));
+}
+
+/* Botão preenchido */
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.35);
+}
+
+/* Brilho que passa por cima do botão */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease-out);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 12px 34px rgba(var(--accent-rgb), 0.55);
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+/* Botão só com borda */
+.btn-outline {
+  background: transparent;
+  color: var(--accent-text);
+  border: 1px solid rgba(var(--accent-rgb), 0.5);
+}
+
+.btn-outline:hover {
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.12);
+}
+
+/* Botão depois de enviar o formulário */
+.btn.is-sent {
+  background: var(--live);
+  color: var(--bg);
+  box-shadow: 0 8px 24px rgba(var(--live-rgb), 0.35);
+}
+
+/* ---------- Foto (parada) ---------- */
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s ease 0.3s backwards;
+}
+
+/* Moldura da foto, com um contorno coral deslocado atrás */
+.image-frame {
+  position: relative;
+  isolation: isolate;
+  width: 300px;
+}
+
+.image-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translate(16px, 16px);
+  border: 2px solid rgba(var(--accent2-rgb), 0.6);
+  border-radius: 24px;
+}
+
+.image-inner {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.45);
+  background:
+    linear-gradient(145deg, rgba(var(--accent-rgb), 0.25), rgba(var(--accent2-rgb), 0.15)),
+    var(--bg-soft);
+  box-shadow: var(--shadow), 0 0 50px rgba(var(--accent-rgb), 0.18);
+}
+
+.image-inner img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;               /* corta a imagem para caber sem distorcer */
+  object-position: center 20%;     /* mantém o rosto enquadrado */
+}
+
+/* Tag "</> em construção" sobre a foto */
+.image-tag {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.7rem;
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+}
+
+/* Indicador "scroll" no canto inferior esquerdo */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  letter-spacing: 0.08em;
+}
+
+.scroll-indicator .line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  transform-origin: top;
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+/* =====================================================
+   ANIMAÇÃO DE ENTRADA AO ROLAR (ativada pelo JS)
+   ===================================================== */
+.js .reveal:not(.in) {
+  opacity: 0;
+}
+
+.reveal.in {
+  animation: fadeUp 0.8s var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* =====================================================
+   SEÇÕES EM GERAL
+   ===================================================== */
+.section {
+  position: relative;
+  padding: 6rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;           /* centraliza o conteúdo */
+  z-index: 1;
+}
+
+/* Label pequena em cima do título (ex: SOBRE MIM) */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--accent-text);
+  margin-bottom: 1rem;
+}
+
+/* Tracinho azul com a pontinha coral */
+.section-label::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent) 0 70%, var(--accent-2) 70% 100%);
+}
+
+/* Título grande das seções */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 3rem;
+  color: var(--text);
+}
+
+/* =====================================================
+   SOBRE MIM
+   ===================================================== */
+.sobre {
+  display: grid;
+  grid-template-columns: 180px 1fr;  /* label | texto */
+  gap: 3rem;
+  align-items: start;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 5rem;
+}
+
+.sobre-content p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  margin-bottom: 1.5rem;
+  max-width: 640px;
+}
+
+/* Primeiro parágrafo em destaque */
+.sobre-content p:first-child {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.sobre-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* =====================================================
+   HABILIDADES
+   ===================================================== */
+.habilidades {
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 5rem;
+}
+
+/* Grade 2x2 dos cards de habilidades */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+/* Brilho que segue o mouse dentro dos cards (posição vem do JS) */
+.skill-card,
+.project-item,
+.social-card {
+  position: relative;
+  isolation: isolate;
+  background: var(--card);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.skill-card::before,
+.project-item::before,
+.social-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-rgb), 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.skill-card:hover::before,
+.project-item:hover::before,
+.social-card:hover::before {
+  opacity: 1;
+}
+
+.skill-card {
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: border-color var(--transition), background var(--transition),
+    transform 0.35s var(--ease-out), box-shadow 0.35s ease;
+}
+
+.skill-card:hover {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  background: var(--card-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.skill-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+.skill-card h3::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--two-tone);
+}
+
+/* Tags das tecnologias (HTML, CSS, React...) */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tags span {
+  background: rgba(var(--accent-rgb), 0.12);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  color: var(--accent-text);
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: transform 0.2s var(--ease-out), background var(--transition);
+}
+
+.tags span:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: rgba(var(--accent-rgb), 0.24);
+}
+
+/* =====================================================
+   PROJETOS
+   ===================================================== */
+.projetos {
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 5rem;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Cada item de projeto */
+.project-item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto auto;  /* número | info | tags | seta */
+  align-items: center;
+  gap: 1.5rem;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem 1.5rem 2rem;
+  transition: background var(--transition), border-color var(--transition),
+    transform 0.35s var(--ease-out), box-shadow 0.35s ease;
+}
+
+/* Barra na esquerda: azul com a pontinha coral (cresce ao passar o mouse) */
+.project-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--accent) 0 72%, var(--accent-2) 72% 100%);
+  transition: width 0.3s var(--ease-out);
+}
+
+.project-item:hover {
+  background: var(--card-hover);
+  border-color: rgba(var(--accent-rgb), 0.4);
+  transform: translateX(6px);
+  box-shadow: var(--shadow);
+}
+
+.project-item:hover::after {
+  width: 6px;
+}
+
+.project-number {
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-soft);
+  transition: color var(--transition), transform 0.35s var(--ease-out);
+}
+
+.project-item:hover .project-number {
+  color: var(--accent2-text);
+  transform: scale(1.1);
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.project-header h3 {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.year {
+  font-size: 0.8rem;
+  color: var(--text-soft);
+}
+
+/* Badge "live" com bolinha pulsando */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(var(--live-rgb), 0.15);
+  color: var(--live);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+.live-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live);
+  animation: pulse 2s infinite;
+}
+
+.project-info p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 420px;
+}
+
+.project-tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.project-tags span {
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  color: var(--accent-text);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+}
+
+/* Seta dentro de um círculo */
+.project-link {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  transition: all 0.35s var(--ease-out);
+}
+
+.project-item:hover .project-link {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  transform: rotate(-45deg);   /* a seta → vira ↗ */
+}
+
+/* =====================================================
+   CONTATO
+   ===================================================== */
+.contato-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.contato-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;  /* links sociais | formulário */
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.social-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.4rem;
+  transition: border-color var(--transition), background var(--transition),
+    transform 0.35s var(--ease-out), box-shadow 0.35s ease;
+}
+
+.social-card:hover {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  background: var(--card-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.social-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-soft);
+  margin-bottom: 0.15rem;
+}
+
+.social-url {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.social-card .arrow {
+  color: var(--text-soft);
+  font-size: 1.1rem;
+  transition: transform var(--transition), color var(--transition);
+}
+
+.social-card:hover .arrow {
+  transform: translate(3px, -3px);  /* seta sobe e anda para a direita */
+  color: var(--accent2-text);
+}
+
+/* Formulário */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: var(--card);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 0.95rem 1.15rem;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  resize: vertical;
+}
+
+.contact-form textarea {
+  min-height: 130px;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--text-soft);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--accent);                          /* borda colorida ao focar */
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.18);  /* halo em volta */
+  background: var(--card-hover);
+}
+
+.contact-form .btn {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* =====================================================
+   RODAPÉ
+   ===================================================== */
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem 3rem;
+  font-size: 0.75rem;
+  color: var(--text-soft);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Linha de degradê no topo do rodapé */
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 3rem;
+  right: 3rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.6), transparent);
+}
+
+/* =====================================================
+   ANIMAÇÕES (keyframes)
+   ===================================================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes ping {
+  from { transform: scale(1); opacity: 0.8; }
+  to   { transform: scale(3); opacity: 0; }
+}
+
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); opacity: 1; }
+  60%  { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* =====================================================
+   REDUZIR ANIMAÇÕES
+   Vale quando a pessoa liga o interruptor no painel de tema
+   ou quando o sistema dela já pede menos movimento.
+   ===================================================== */
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =====================================================
+   RESPONSIVO (adaptação para celular e tablet)
+   ===================================================== */
+
+/* Telas menores que 900px (tablets e celulares) */
+@media (max-width: 900px) {
+  .navbar {
+    padding: 1rem 1.5rem;
+  }
+
+  .navbar.scrolled {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* Esconde os links da navbar e mostra o menu hambúrguer */
+  .nav-links {
+    display: none;
+  }
+
+  .theme-toggle {
+    margin-left: auto;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  /* Hero vira uma coluna só */
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 7rem 1.5rem 4rem;
+    gap: 2.5rem;
+    text-align: left;
+  }
+
+  .hero-content {
+    justify-self: center;
+  }
+
+  .hero-image {
+    order: -1;              /* foto sobe para cima do texto */
+    margin-bottom: 1rem;
+  }
+
+  .image-frame {
+    width: 230px;
+  }
+
+  .image-frame::before {
+    transform: translate(12px, 12px);
+  }
+
+  .image-inner img {
+    height: 290px;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+
+  .section {
+    padding: 4rem 1.5rem;
+  }
+
+  /* Sobre vira uma coluna */
+  .sobre {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Skills vira uma coluna */
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Projetos ficam mais simples */
+  .project-item {
+    grid-template-columns: 40px 1fr;
+    gap: 1rem;
+  }
+
+  .project-number {
+    font-size: 1.5rem;
+  }
+
+  .project-tags,
+  .project-link {
+    grid-column: 2;
+  }
+
+  .project-tags {
+    justify-content: flex-start;
+  }
+
+  .project-link {
+    justify-self: start;
+  }
+
+  /* Contato vira uma coluna */
+  .contato-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .footer::before {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+/* O painel de tema ocupa a largura da tela em celulares pequenos */
+@media (max-width: 600px) {
+  .theme-panel {
+    position: fixed;
+    top: 68px;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+}
+
+/* Telas bem pequenas (celulares) */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .theme-toggle .label {
+    display: none;   /* só a bolinha e a setinha, para caber no topo */
+  }
+}
