@@ -1,27 +1,19 @@
 (() => {
   "use strict";
 
-  // Atalhos para buscar elementos mais rápido
   const root = document.documentElement;
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-  // Só liga os efeitos de mouse em computador (não em celular)
+  // Só liga os efeitos de mouse em computador
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const mqDark = matchMedia("(prefers-color-scheme: dark)");
   const mqMotion = matchMedia("(prefers-reduced-motion: reduce)");
-
-  /* =====================================================
-     TEMA: claro / escuro / sistema + modos para daltonismo
-     O visual em si está no CSS (variáveis). Aqui o JS só
-     troca os atributos no <html> e salva a escolha.
-     ===================================================== */
 
   const STORAGE_KEY = "ana-theme-v1";
   const MODES = ["dark", "light", "system"];
   const VISIONS = ["default", "deutan", "protan", "tritan", "contrast"];
 
-  // Nomes que aparecem no botão do topo
   const MODE_LABEL = { dark: "Escuro", light: "Claro" };
   const VISION_LABEL = {
     deutan: "Deuteranopia",
@@ -38,7 +30,6 @@
   const visionBtns = $$("[data-vision]", themePanel);
   const metaTheme = $('meta[name="theme-color"]');
 
-  // Lê a escolha salva (se der erro ou não existir, usa o padrão)
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -62,11 +53,11 @@
   const state = loadState();
   let transitionTimer;
 
-  // Aplica a escolha na página
+ 
   function applyTheme(animate) {
     const mode = state.mode === "system" ? (mqDark.matches ? "dark" : "light") : state.mode;
 
-    // Troca de cores suave (a classe sai depois de meio segundo)
+  
     if (animate) {
       root.classList.add("theme-transition");
       clearTimeout(transitionTimer);
@@ -78,15 +69,15 @@
     if (state.reduced) root.dataset.motion = "reduced";
     else delete root.dataset.motion;
 
-    // Texto do botão: nome do modo de visão ou do tema
+
     themeLabel.textContent = state.vision === "default" ? MODE_LABEL[mode] : VISION_LABEL[state.vision];
 
-    // Marca os botões selecionados
+
     modeBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)));
     visionBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.vision === state.vision)));
     motionToggle.checked = state.reduced;
 
-    // Pinta a barra do navegador (celular) com a cor de fundo do tema
+
     if (metaTheme) {
       metaTheme.setAttribute("content", getComputedStyle(root).getPropertyValue("--bg").trim());
     }
@@ -114,12 +105,12 @@
     applyTheme(false);
   });
 
-  // Se estiver em "Sistema", acompanha quando o aparelho muda de claro/escuro
+
   mqDark.addEventListener?.("change", () => {
     if (state.mode === "system") applyTheme(true);
   });
 
-  // Abrir / fechar o painel de tema
+
   function setPanel(open) {
     themePanel.classList.toggle("open", open);
     themeBtn.setAttribute("aria-expanded", String(open));
@@ -127,7 +118,7 @@
 
   themeBtn.addEventListener("click", () => setPanel(!themePanel.classList.contains("open")));
 
-  // Clicou fora do painel: fecha
+
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".theme-toggle")) setPanel(false);
   });
@@ -135,10 +126,10 @@
   applyTheme(false);
 
   /* =====================================================
-     MENU MOBILE (hambúrguer)
+     MENU MOBILE
      ===================================================== */
 
-  // Pega o botão do menu e o menu em si
+ 
   const menuToggle = $("#menuToggle");
   const mobileMenu = $("#mobileMenu");
 
@@ -148,18 +139,16 @@
     menuToggle.setAttribute("aria-expanded", String(open));
   }
 
-  // Quando clicar no botão hambúrguer, abre ou fecha o menu
+
   menuToggle?.addEventListener("click", () => {
     setMenu(!mobileMenu.classList.contains("open"));
     setPanel(false);
   });
 
-  // Fecha o menu quando clicar em qualquer link dentro dele
   mobileMenu?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => setMenu(false));
   });
 
-  // Esc fecha o painel de tema e o menu
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     if (themePanel.classList.contains("open")) {
@@ -169,35 +158,29 @@
     setMenu(false);
   });
 
-  /* =====================================================
-     SCROLL SUAVE
-     ===================================================== */
 
-  // Para todos os links que começam com # (âncoras internas)
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       const targetId = this.getAttribute("href");
 
-      // Se for só "#", não faz nada
       if (targetId === "#") return;
 
       const target = document.querySelector(targetId);
 
       if (target) {
-        e.preventDefault(); // impede o comportamento padrão do navegador
-
-        // Calcula a posição com um espaço de 80px (por causa da navbar fixa)
+        e.preventDefault(); 
+)
         const offset = 80;
         const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
 
-        // Rola a página suavemente até o elemento
+
         window.scrollTo({ top, behavior: "smooth" });
       }
     });
   });
 
   /* =====================================================
-     NAVBAR E BARRA DE PROGRESSO AO ROLAR
+     NAVBAR E BARRA DE PROGRESSO
      ===================================================== */
 
   const navbar = $("#navbar");
@@ -211,10 +194,8 @@
       const y = window.scrollY;
       const max = root.scrollHeight - window.innerHeight;
 
-      // Já rolou mais de 50px? A barra fica compacta e ganha borda colorida
       navbar.classList.toggle("scrolled", y > 50);
 
-      // Barrinha de progresso de leitura
       progress.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
       ticking = false;
     });
@@ -223,9 +204,6 @@
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  /* =====================================================
-     LINK ATIVO NO MENU (mostra em qual seção você está)
-     ===================================================== */
 
   const navLinks = $$(".nav-links a");
   const sections = navLinks.map((a) => $(a.getAttribute("href"))).filter(Boolean);
@@ -247,36 +225,25 @@
 
   sections.forEach((s) => spy.observe(s));
 
-  /* =====================================================
-     ANIMAÇÃO DE ENTRADA (aparece ao rolar)
-     ===================================================== */
-
-  // Configurações do "observador"
   const observerOptions = {
-    threshold: 0.12,                    // quando 12% do elemento aparecer
-    rootMargin: "0px 0px -40px 0px",    // margem inferior
+    threshold: 0.12,                    
+    rootMargin: "0px 0px -40px 0px",   
   };
 
-  // Cria o observador que detecta quando os elementos entram na tela
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add("in");   // dispara a animação no CSS
-        observer.unobserve(entry.target);   // só anima uma vez
+        entry.target.classList.add("in"); 
+        observer.unobserve(entry.target);  
       }
     });
   }, observerOptions);
 
   $$(".reveal").forEach((el) => {
-    // Atraso em cascata: o 1º aparece logo, o 2º um pouquinho depois, etc.
     const index = [...el.parentElement.children].indexOf(el);
     el.style.setProperty("--i", Math.min(index, 6));
     observer.observe(el);
   });
-
-  /* =====================================================
-     "Desenvolvedor(a) Web." SENDO DIGITADO
-     ===================================================== */
 
   const subtitle = $(".subtitle");
 
@@ -284,12 +251,11 @@
     const full = subtitle.textContent.trim();
     subtitle.textContent = "";
 
-    // Versão invisível só para leitor de tela
+  
     const sr = document.createElement("span");
     sr.className = "sr-only";
     sr.textContent = full;
 
-    // Texto que vai sendo digitado + cursor piscando
     const typed = document.createElement("span");
     typed.setAttribute("aria-hidden", "true");
     const caret = document.createElement("span");
@@ -307,11 +273,11 @@
   }
 
   /* =====================================================
-     EFEITOS DE MOUSE (só em computador)
+     EFEITOS DE MOUSE 
      ===================================================== */
 
   if (finePointer) {
-    // 1) Brilho suave seguindo o mouse
+
     const glow = $("#cursorGlow");
     window.addEventListener(
       "pointermove",
@@ -323,7 +289,6 @@
     );
     document.addEventListener("pointerleave", () => glow.classList.remove("on"));
 
-    // 2) Botões "puxados" levemente pelo mouse (efeito ímã)
     $$(".btn").forEach((btn) => {
       btn.addEventListener("pointermove", (e) => {
         const r = btn.getBoundingClientRect();
@@ -337,7 +302,6 @@
     });
   }
 
-  // Brilho que segue o mouse dentro dos cards (guarda a posição em --mx e --my)
   $$(".skill-card, .project-item, .social-card").forEach((card) => {
     card.addEventListener("pointermove", (e) => {
       const r = card.getBoundingClientRect();
@@ -347,7 +311,7 @@
   });
 
   /* =====================================================
-     FORMULÁRIO DE CONTATO (EmailJS)
+     FORMULÁRIO DE CONTATO 
      ===================================================== */
 
   const EMAILJS_PUBLIC_KEY = "-zGfQP1HrketJayBx";
@@ -361,7 +325,6 @@
   contactForm?.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // Coloca a data e hora atual
     const agora = new Date().toLocaleString("pt-BR", {
       dateStyle: "short",
       timeStyle: "short"
