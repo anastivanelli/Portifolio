@@ -7,23 +7,6 @@
   box-sizing: border-box;
 }
 
-/* =====================================================
-   TEMAS
-   Tudo que muda de cor está aqui em cima, em variáveis.
-   O JavaScript só troca os atributos no <html>:
-     data-theme  = dark | light
-     data-vision = default | deutan | protan | tritan | contrast
-
-   Variáveis de cor:
-     --accent       cor principal (botões, preenchimentos)
-     --accent-text  a mesma cor, mas ajustada para ser lida como texto
-     --accent-lite  tom mais claro da principal (degradês)
-     --accent-2     cor de apoio, suave e quente (detalhes pequenos)
-     --accent2-text a cor de apoio ajustada para texto
-     --on-accent    cor do texto em cima da cor principal
-     --live         cor do selo "live" e da mensagem de sucesso
-   ===================================================== */
-
 
 :root,
 [data-theme="dark"] {
@@ -72,25 +55,6 @@
   --on-accent: #ffffff;
   --live: #047857;              --live-rgb: 4, 120, 87;
 }
-
-/* ---------- DALTONISMO ----------
-   As paletas vêm de fontes confiáveis e foram escolhidas para
-   não depender de verde x vermelho:
-
-   • Deuteranopia  → Okabe-Ito (Color Universal Design, Okabe & Ito;
-                     a mesma da Bang Wong, Nature Methods 2011)
-                     azul #0072B2, azul-céu #56B4E9, laranja #E69F00,
-                     vermelhão #D55E00, verde-azulado #009E73
-   • Protanopia    → Paul Tol, esquema "high-contrast" e "bright"
-                     (SRON) azul #004488 / #4477AA, amarelo #DDAA33,
-                     ciano #66CCEE, azul claro #77AADD
-   • Tritanopia    → Paul Tol, esquema "vibrant"
-                     vermelho #CC3311, laranja #EE7733,
-                     verde-azulado #009988
-   • Alto contraste→ WCAG (W3C): texto com contraste de 7:1 ou mais
-
-   Alguns tons foram só escurecidos/clareados da mesma cor para o
-   texto ter contraste de pelo menos 4,5:1 (WCAG AA). */
 
 /* Deuteranopia */
 [data-theme="dark"][data-vision="deutan"] {
@@ -186,33 +150,33 @@
 
 /* Variáveis que não mudam com o tema */
 :root {
-  --font-serif: "Cormorant Garamond", Georgia, serif;  /* fonte elegante dos títulos */
-  --font-sans: "Inter", system-ui, sans-serif;         /* fonte do texto normal */
+  --font-serif: "Cormorant Garamond", Georgia, serif;  
+  --font-sans: "Inter", system-ui, sans-serif;         
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --radius: 14px;                                      /* arredondamento padrão */
-  --transition: 0.25s ease;                            /* velocidade das animações */
+  --radius: 14px;                                     
+  --transition: 0.25s ease;                          
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
-  /* Duas cores lado a lado, sem misturar (usado em bolinhas e detalhes) */
+
   --two-tone: linear-gradient(135deg, var(--accent) 0 50%, var(--accent-2) 50% 100%);
 }
 
-/* Faz o scroll da página ser suave ao clicar nos links */
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
-/* Estilos gerais do body */
+
 body {
   font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
-  overflow-x: hidden;   /* evita barra de rolagem horizontal */
+  overflow-x: hidden;   
   min-height: 100vh;
 }
 
-/* Suaviza a troca de tema (a classe é colocada pelo JS por meio segundo) */
+
 .theme-transition,
 .theme-transition *,
 .theme-transition *::before,
@@ -221,26 +185,26 @@ body {
     border-color 0.45s ease, fill 0.45s ease, box-shadow 0.45s ease !important;
 }
 
-/* Remove o sublinhado padrão dos links e herda a cor do texto */
+
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Faz as imagens não ultrapassarem o tamanho do container */
+
 img {
   max-width: 100%;
   display: block;
 }
 
-/* Contorno bem visível para quem navega pelo teclado */
+
 :focus-visible {
   outline: 2px solid var(--accent-text);
   outline-offset: 3px;
   border-radius: 6px;
 }
 
-/* Texto só para leitor de tela */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -250,7 +214,7 @@ img {
   white-space: nowrap;
 }
 
-/* Atalho "Ir para o conteúdo" */
+
 .skip-link {
   position: fixed;
   left: 1rem;
@@ -269,11 +233,7 @@ img {
   top: 1rem;
 }
 
-/* =====================================================
-   EFEITOS DE FUNDO
-   ===================================================== */
 
-/* Barrinha de progresso de leitura */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -286,7 +246,7 @@ img {
   transform-origin: left;
 }
 
-/* Camada fixa com as bolhas de cor */
+
 .bg-fx {
   position: fixed;
   inset: 0;
@@ -329,7 +289,7 @@ img {
   animation: drift3 32s ease-in-out infinite alternate;
 }
 
-/* Pontinhos que somem nas bordas */
+
 .grid-dots {
   position: absolute;
   inset: 0;
@@ -340,7 +300,6 @@ img {
   mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 70%);
 }
 
-/* Brilho pequeno que segue o mouse (só em computador) */
 .cursor-glow {
   position: fixed;
   left: 0;
@@ -372,14 +331,14 @@ img {
 }
 
 /* =====================================================
-   NAVBAR (barra de navegação fixa)
+   NAVBAR 
    ===================================================== */
 .navbar {
-  position: fixed;          /* fica sempre no topo mesmo ao rolar */
+  position: fixed;         
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;             /* fica acima de tudo */
+  z-index: 100;          
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -387,12 +346,12 @@ img {
   padding: 1.25rem 3rem;
   background: var(--nav-bg);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  backdrop-filter: blur(16px) saturate(1.4);   /* efeito de vidro fosco */
+  backdrop-filter: blur(16px) saturate(1.4); 
   border-bottom: 1px solid var(--border-soft);
   transition: padding 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* Quando a página já rolou: barra fica mais compacta */
+
 .navbar.scrolled {
   padding-top: 0.8rem;
   padding-bottom: 0.8rem;
@@ -420,20 +379,20 @@ img {
 
 .nav-links {
   display: flex;
-  gap: 2.5rem;              /* espaço entre os links */
+  gap: 2.5rem;           
 }
 
 .nav-links a {
   position: relative;
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.12em;  /* letras bem espaçadas */
+  letter-spacing: 0.12em; 
   color: var(--text-muted);
   padding: 0.35rem 0;
   transition: color var(--transition);
 }
 
-/* Linha que cresce embaixo do link */
+
 .nav-links a::after {
   content: "";
   position: absolute;
@@ -458,7 +417,7 @@ img {
   transform: scaleX(1);
 }
 
-/* ---------- Botão e painel de tema ---------- */
+
 .theme-toggle {
   position: relative;
 }
@@ -469,7 +428,7 @@ img {
   gap: 0.5rem;
   background: rgba(var(--accent-rgb), 0.08);
   border: 1px solid rgba(var(--accent-rgb), 0.35);
-  border-radius: 999px;     /* formato de pílula */
+  border-radius: 999px;    
   padding: 0.4rem 0.9rem;
   color: var(--text);
   font-family: inherit;
@@ -491,7 +450,7 @@ img {
   transform: rotate(180deg);
 }
 
-/* Bolinha com as duas cores do tema atual */
+
 .theme-toggle .dot {
   width: 10px;
   height: 10px;
@@ -500,7 +459,7 @@ img {
   box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.6);
 }
 
-/* Painel que abre embaixo do botão */
+
 .theme-panel {
   position: absolute;
   top: calc(100% + 14px);
@@ -533,7 +492,7 @@ img {
   margin-bottom: 0.6rem;
 }
 
-/* Botões lado a lado: Escuro | Claro | Sistema */
+
 .seg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -571,7 +530,7 @@ img {
   box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.4);
 }
 
-/* Lista dos modos de daltonismo */
+
 .vision-list {
   display: flex;
   flex-direction: column;
@@ -603,7 +562,7 @@ img {
   background: rgba(var(--accent-rgb), 0.12);
 }
 
-/* Marca de "selecionado" (não depende só de cor) */
+
 .vision-btn[aria-pressed="true"]::after {
   content: "✓";
   margin-left: auto;
@@ -611,7 +570,7 @@ img {
   font-weight: 700;
 }
 
-/* Duas bolinhas de amostra da paleta */
+
 .swatch {
   display: flex;
   flex: none;
@@ -642,7 +601,7 @@ img {
   color: var(--text-soft);
 }
 
-/* Interruptor "Reduzir animações" */
+
 .switch-row {
   position: relative;
   display: flex;
@@ -697,9 +656,9 @@ img {
   outline-offset: 3px;
 }
 
-/* ---------- Botão hambúrguer (só aparece no celular) ---------- */
+
 .menu-toggle {
-  display: none;            /* escondido por padrão */
+  display: none;          
   flex-direction: column;
   gap: 5px;
   background: none;
@@ -716,12 +675,12 @@ img {
   transition: transform 0.3s var(--ease-out), opacity 0.2s ease;
 }
 
-/* Vira um "X" quando o menu está aberto */
+
 .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .menu-toggle.active span:nth-child(2) { opacity: 0; }
 .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Menu que abre no celular */
+
 .mobile-menu {
   display: none;
   position: fixed;
@@ -742,7 +701,7 @@ img {
   transition: transform 0.3s var(--ease-out), opacity 0.25s ease, visibility 0.3s;
 }
 
-/* Quando a classe "open" é adicionada pelo JS, o menu aparece */
+
 .mobile-menu.open {
   opacity: 1;
   visibility: visible;
@@ -766,11 +725,11 @@ img {
    ===================================================== */
 .hero {
   position: relative;
-  min-height: 100vh;        /* ocupa a tela inteira */
+  min-height: 100vh;        
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;  /* duas colunas: texto | foto */
+  grid-template-columns: 1.1fr 0.9fr;  
   align-items: center;
   align-content: center;
   justify-items: center;
@@ -784,7 +743,7 @@ img {
   justify-self: start;
 }
 
-/* Entrada em cascata dos itens do hero */
+
 .hero-content > * {
   animation: fadeUp 0.9s var(--ease-out) backwards;
   animation-delay: calc(var(--i, 0) * 110ms + 100ms);
@@ -795,7 +754,7 @@ img {
 .hero-content > :nth-child(4) { --i: 3; }
 .hero-content > :nth-child(5) { --i: 4; }
 
-/* Badge "disponível para estágios" */
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -810,7 +769,7 @@ img {
   margin-bottom: 2rem;
 }
 
-/* Bolinha do badge, com um "anel" que se expande */
+
 .badge-dot {
   position: relative;
   width: 8px;
@@ -828,10 +787,10 @@ img {
   animation: ping 2s ease-out infinite;
 }
 
-/* Título principal "Olá, sou..." */
+
 .hero h1 {
   font-family: var(--font-serif);
-  font-size: clamp(3.2rem, 7vw, 5.4rem);  /* tamanho responsivo */
+  font-size: clamp(3.2rem, 7vw, 5.4rem); 
   font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.01em;
@@ -839,12 +798,11 @@ img {
   color: var(--text);
 }
 
-/* Nome em itálico com degradê de azul */
 .hero h1 .name {
   display: inline-block;
   padding-right: 0.12em;
   font-style: italic;
-  color: var(--accent-text);  /* cor de reserva */
+  color: var(--accent-text);  
   background: linear-gradient(110deg, var(--accent-text), var(--accent-lite), var(--accent-text));
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -853,7 +811,7 @@ img {
   animation: shine 6s linear infinite;
 }
 
-/* "Desenvolvedor(a) Web." digitando */
+
 .subtitle {
   font-family: var(--font-mono);
   font-size: 0.95rem;
@@ -887,7 +845,7 @@ img {
   flex-wrap: wrap;
 }
 
-/* Estilo base de todos os botões */
+
 .btn {
   position: relative;
   overflow: hidden;
@@ -902,7 +860,7 @@ img {
   border-radius: 10px;
   cursor: pointer;
   border: none;
-  /* --tx e --ty vêm do efeito "ímã" feito no JS */
+
   transform: translate(var(--tx, 0px), var(--ty, 0px));
   transition: transform 0.2s ease-out, background var(--transition),
     box-shadow var(--transition), border-color var(--transition), color var(--transition);
@@ -912,14 +870,14 @@ img {
   transform: translate(var(--tx, 0px), calc(var(--ty, 0px) - 2px));
 }
 
-/* Botão preenchido */
+
 .btn-primary {
   background: var(--accent);
   color: var(--on-accent);
   box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.35);
 }
 
-/* Brilho que passa por cima do botão */
+
 .btn-primary::after {
   content: "";
   position: absolute;
@@ -949,14 +907,14 @@ img {
   background: rgba(var(--accent-rgb), 0.12);
 }
 
-/* Botão depois de enviar o formulário */
+
 .btn.is-sent {
   background: var(--live);
   color: var(--bg);
   box-shadow: 0 8px 24px rgba(var(--live-rgb), 0.35);
 }
 
-/* ---------- Foto (parada) ---------- */
+
 .hero-image {
   display: flex;
   justify-content: center;
@@ -964,7 +922,7 @@ img {
   animation: fadeIn 1s ease 0.3s backwards;
 }
 
-/* Moldura da foto, com um contorno coral deslocado atrás */
+
 .image-frame {
   position: relative;
   isolation: isolate;
@@ -995,11 +953,11 @@ img {
 .image-inner img {
   width: 100%;
   height: 380px;
-  object-fit: cover;               /* corta a imagem para caber sem distorcer */
-  object-position: center 20%;     /* mantém o rosto enquadrado */
+  object-fit: cover;              
+  object-position: center 20%;     
 }
 
-/* Tag "</> em construção" sobre a foto */
+
 .image-tag {
   position: absolute;
   bottom: 12px;
@@ -1015,7 +973,7 @@ img {
   font-family: var(--font-mono);
 }
 
-/* Indicador "scroll" no canto inferior esquerdo */
+
 .scroll-indicator {
   position: absolute;
   bottom: 2.5rem;
@@ -1036,9 +994,7 @@ img {
   animation: scrollLine 2s ease-in-out infinite;
 }
 
-/* =====================================================
-   ANIMAÇÃO DE ENTRADA AO ROLAR (ativada pelo JS)
-   ===================================================== */
+
 .js .reveal:not(.in) {
   opacity: 0;
 }
@@ -1049,17 +1005,17 @@ img {
 }
 
 /* =====================================================
-   SEÇÕES EM GERAL
+   SEÇÕES
    ===================================================== */
 .section {
   position: relative;
   padding: 6rem 3rem;
   max-width: 1100px;
-  margin: 0 auto;           /* centraliza o conteúdo */
+  margin: 0 auto;      
   z-index: 1;
 }
 
-/* Label pequena em cima do título (ex: SOBRE MIM) */
+
 .section-label {
   display: flex;
   align-items: center;
@@ -1071,7 +1027,7 @@ img {
   margin-bottom: 1rem;
 }
 
-/* Tracinho azul com a pontinha coral */
+
 .section-label::before {
   content: "";
   width: 28px;
@@ -1080,7 +1036,7 @@ img {
   background: linear-gradient(90deg, var(--accent) 0 70%, var(--accent-2) 70% 100%);
 }
 
-/* Título grande das seções */
+
 .section-title {
   font-family: var(--font-serif);
   font-size: clamp(2.4rem, 4.5vw, 3.4rem);
@@ -1095,7 +1051,7 @@ img {
    ===================================================== */
 .sobre {
   display: grid;
-  grid-template-columns: 180px 1fr;  /* label | texto */
+  grid-template-columns: 180px 1fr; 
   gap: 3rem;
   align-items: start;
   border-bottom: 1px solid var(--border-soft);
@@ -1110,7 +1066,7 @@ img {
   max-width: 640px;
 }
 
-/* Primeiro parágrafo em destaque */
+
 .sobre-content p:first-child {
   font-family: var(--font-serif);
   font-size: clamp(1.4rem, 2.6vw, 1.85rem);
@@ -1130,14 +1086,14 @@ img {
   padding-bottom: 5rem;
 }
 
-/* Grade 2x2 dos cards de habilidades */
+
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
 }
 
-/* Brilho que segue o mouse dentro dos cards (posição vem do JS) */
+
 .skill-card,
 .project-item,
 .social-card {
@@ -1202,7 +1158,7 @@ img {
   background: var(--two-tone);
 }
 
-/* Tags das tecnologias (HTML, CSS, React...) */
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -1242,7 +1198,7 @@ img {
 /* Cada item de projeto */
 .project-item {
   display: grid;
-  grid-template-columns: 56px 1fr auto auto;  /* número | info | tags | seta */
+  grid-template-columns: 56px 1fr auto auto; 
   align-items: center;
   gap: 1.5rem;
   overflow: hidden;
@@ -1253,7 +1209,7 @@ img {
     transform 0.35s var(--ease-out), box-shadow 0.35s ease;
 }
 
-/* Barra na esquerda: azul com a pontinha coral (cresce ao passar o mouse) */
+
 .project-item::after {
   content: "";
   position: absolute;
@@ -1310,7 +1266,7 @@ img {
   color: var(--text-soft);
 }
 
-/* Badge "live" com bolinha pulsando */
+
 .live-badge {
   display: inline-flex;
   align-items: center;
@@ -1355,7 +1311,7 @@ img {
   border-radius: 6px;
 }
 
-/* Seta dentro de um círculo */
+
 .project-link {
   display: grid;
   place-items: center;
@@ -1372,7 +1328,7 @@ img {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--on-accent);
-  transform: rotate(-45deg);   /* a seta → vira ↗ */
+  transform: rotate(-45deg);  
 }
 
 /* =====================================================
@@ -1387,7 +1343,7 @@ img {
 
 .contato-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;  /* links sociais | formulário */
+  grid-template-columns: 1fr 1.2fr; 
   gap: 2.5rem;
   align-items: start;
 }
@@ -1435,7 +1391,7 @@ img {
 }
 
 .social-card:hover .arrow {
-  transform: translate(3px, -3px);  /* seta sobe e anda para a direita */
+  transform: translate(3px, -3px);  
   color: var(--accent2-text);
 }
 
@@ -1473,8 +1429,8 @@ img {
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border-color: var(--accent);                          /* borda colorida ao focar */
-  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.18);  /* halo em volta */
+  border-color: var(--accent);                          
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.18);  
   background: var(--card-hover);
 }
 
@@ -1499,7 +1455,7 @@ img {
   margin: 0 auto;
 }
 
-/* Linha de degradê no topo do rodapé */
+
 .footer::before {
   content: "";
   position: absolute;
@@ -1511,7 +1467,7 @@ img {
 }
 
 /* =====================================================
-   ANIMAÇÕES (keyframes)
+   ANIMAÇÕES
    ===================================================== */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(26px); }
@@ -1549,8 +1505,6 @@ img {
 
 /* =====================================================
    REDUZIR ANIMAÇÕES
-   Vale quando a pessoa liga o interruptor no painel de tema
-   ou quando o sistema dela já pede menos movimento.
    ===================================================== */
 [data-motion="reduced"] *,
 [data-motion="reduced"] *::before,
@@ -1575,10 +1529,10 @@ img {
 }
 
 /* =====================================================
-   RESPONSIVO (adaptação para celular e tablet)
+   RESPONSIVO 
    ===================================================== */
 
-/* Telas menores que 900px (tablets e celulares) */
+
 @media (max-width: 900px) {
   .navbar {
     padding: 1rem 1.5rem;
@@ -1589,7 +1543,7 @@ img {
     padding-bottom: 0.75rem;
   }
 
-  /* Esconde os links da navbar e mostra o menu hambúrguer */
+
   .nav-links {
     display: none;
   }
@@ -1606,7 +1560,7 @@ img {
     display: flex;
   }
 
-  /* Hero vira uma coluna só */
+
   .hero {
     grid-template-columns: 1fr;
     padding: 7rem 1.5rem 4rem;
@@ -1619,7 +1573,7 @@ img {
   }
 
   .hero-image {
-    order: -1;              /* foto sobe para cima do texto */
+    order: -1;             
     margin-bottom: 1rem;
   }
 
@@ -1643,18 +1597,18 @@ img {
     padding: 4rem 1.5rem;
   }
 
-  /* Sobre vira uma coluna */
+
   .sobre {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  /* Skills vira uma coluna */
+
   .skills-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Projetos ficam mais simples */
+
   .project-item {
     grid-template-columns: 40px 1fr;
     gap: 1rem;
@@ -1677,7 +1631,7 @@ img {
     justify-self: start;
   }
 
-  /* Contato vira uma coluna */
+
   .contato-grid {
     grid-template-columns: 1fr;
   }
@@ -1695,7 +1649,7 @@ img {
   }
 }
 
-/* O painel de tema ocupa a largura da tela em celulares pequenos */
+
 @media (max-width: 600px) {
   .theme-panel {
     position: fixed;
@@ -1706,7 +1660,7 @@ img {
   }
 }
 
-/* Telas bem pequenas (celulares) */
+
 @media (max-width: 480px) {
   .hero h1 {
     font-size: 2.8rem;
@@ -1721,6 +1675,6 @@ img {
   }
 
   .theme-toggle .label {
-    display: none;   /* só a bolinha e a setinha, para caber no topo */
+    display: none;  
   }
 }
